@@ -1,0 +1,7 @@
+.env
+alembic.ini
+user_database.db
+.venv
+.idea
+__pycache__
+alembic
