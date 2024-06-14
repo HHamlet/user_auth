@@ -14,6 +14,7 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
 @app.middleware("http")
+@app.get("/api_key", status_code=status.HTTP_200_OK)
 async def api_key_middleware(request: Request, call_next):
     db: Session = get_db()
     if request.url.path.startswith("/auth"):
