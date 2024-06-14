@@ -1,3 +1,4 @@
+import secrets
 from datetime import timedelta
 from typing import Annotated
 from fastapi import APIRouter, Depends, status, HTTPException
@@ -17,9 +18,11 @@ bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @router.post("/auth", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUser):
+    created_api_key = secrets.token_hex(16)
     create_user_model = User(
         username=create_user_request.username,
-        hashed_password=bcrypt_context.hash(create_user_request.password)
+        hashed_password=bcrypt_context.hash(create_user_request.password),
+        api_key=created_api_key
     )
     db.add(create_user_model)
     db.commit()
